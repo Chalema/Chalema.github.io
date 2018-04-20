@@ -2,7 +2,15 @@
 layout: page
 description: "无所畏惧，永无止境."
 ---
-
+<style>
+.post-preview > .post-meta {
+  font-family: 'Lora', 'Times New Roman', serif;
+  color: #808080;
+  font-size: 10px;
+  font-style: normal;
+  margin-top: 0;
+}
+</style>
 {% for post in paginator.posts %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
