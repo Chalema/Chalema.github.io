@@ -18,7 +18,8 @@ sidebar-avatar: /img/timg.jpeg      # use absolute URL, seeing it's used in both
 
 # SNS settings
 RSS: false
-# weibo_username:     qiubaiying
+# 
+weibo_username:  2421368361
 zhihu_username:     qi-ma-she-diao
 github_username:    chalema
 facebook_username:  baiying.qiu.7
