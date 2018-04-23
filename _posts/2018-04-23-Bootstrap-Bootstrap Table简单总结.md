@@ -96,7 +96,7 @@ function edit(id){
 }
 ```
 ## 3.表格内字体颜色的改变和增加图标
-```
+```javascript
 //给改变表格字体颜色的列加formatter事件；
 columns: [{
                 field: 'payStatus',
