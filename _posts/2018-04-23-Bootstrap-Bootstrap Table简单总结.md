@@ -16,8 +16,8 @@ tags:
 
 它由Twitter的设计师Mark Otto和Jacob Thornton合作开发，是一个CSS/HTML框架。Bootstrap提供了优雅的HTML和CSS规范，它即是由动态CSS语言Less写成。Bootstrap一经推出后颇受欢迎，一直是GitHub上的热门开源项目，包括NASA的MSNBC（微软全国广播公司）的Breaking News都使用了该项目。 [2]  国内一些移动开发者较为熟悉的框架，如WeX5前端开源框架等，也是基于Bootstrap源码进行性能优化而来。
 
-#BootStrap Table
-##主要功能
+# BootStrap Table
+## 主要功能
 - 支持 Bootstrap 3 和 Bootstrap 2
 - 自适应界面
 - 固定表头
@@ -34,7 +34,7 @@ tags:
 - 支持多语言
 - 支持插件
 
-##开始使用
+## 开始使用
 在head标签引入下面代码：
 ```
 <!-- 引入bootstrap样式 -->
@@ -51,8 +51,8 @@ tags:
 <!-- 引入中文语言包 -->
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 ```
-#问题以及解决方式
-##1.获取checkbox选中行批量删除问题
+# 问题以及解决方式
+## 1.获取checkbox选中行批量删除问题
 ```
 //Table加id
 <div class="table-responsive" >
@@ -77,7 +77,7 @@ $('#delLoan').click(function(){
     });
 //获取数据完成问题解决
 ```
-##2.每行加操作按钮（删除或编辑）
+## 2.每行加操作按钮（删除或编辑）
 ```
 //首先在columns中添加操作表头和事件
 columns: [{
@@ -95,7 +95,7 @@ function edit(id){
 //获取id并获取数据进行编辑操作
 }
 ```
-##3.表格内字体颜色的改变和增加图标
+## 3.表格内字体颜色的改变和增加图标
 ```
 //给改变表格字体颜色的列加formatter事件；
 columns: [{
@@ -114,7 +114,7 @@ columns: [{
             }]
 
 ```
-##4.给列数据加点击事件，并获取各种数据
+## 4.给列数据加点击事件，并获取各种数据
 ```
 //根据数据判断显示的内容，加onclick事件；
 //注意：数据传递\''+ row.firstStatus +'\'。
