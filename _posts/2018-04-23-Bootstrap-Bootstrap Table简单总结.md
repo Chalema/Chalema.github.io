@@ -36,7 +36,7 @@ tags:
 
 ## 开始使用
 在head标签引入下面代码：
-```
+```javascript
 <!-- 引入bootstrap样式 -->
 <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <!-- 引入bootstrap-table样式 -->
@@ -53,7 +53,7 @@ tags:
 ```
 # 问题以及解决方式
 ## 1.获取checkbox选中行批量删除问题
-```
+```javascript
 //Table加id
 <div class="table-responsive" >
     <table class="table text-nowrap table-hover" id="tb_departments"></table>
@@ -78,7 +78,7 @@ $('#delLoan').click(function(){
 //获取数据完成问题解决
 ```
 ## 2.每行加操作按钮（删除或编辑）
-```
+```javascript
 //首先在columns中添加操作表头和事件
 columns: [{
                 field: 'operate',
@@ -115,7 +115,7 @@ columns: [{
 
 ```
 ## 4.给列数据加点击事件，并获取各种数据
-```
+```javascript
 //根据数据判断显示的内容，加onclick事件；
 //注意：数据传递\''+ row.firstStatus +'\'。
 //列title：this.title;
