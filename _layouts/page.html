@@ -202,11 +202,16 @@ layout: default
                     {% endfor %}
                 </ul>
                 {% endif %}
+                <!-- Games -->
+                {% if site.games %}
                 <hr>
                 <h5>游戏世界</h5>
                 <ul class="list-inline">
-                        <li><a href="{{ site.baseurl }}/dawenzi.html">灭蚊大作战</a></li>
+                    {% for game in site.games %}
+                        <li><a href="{{game.href}}">{{game.title}}</a></li>
+                    {% endfor %}
                 </ul>
+                {% endif %}
     		</div>
         {% endif %}
 	</div>

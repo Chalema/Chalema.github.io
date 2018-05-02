@@ -110,3 +110,11 @@ friends: [
         href: "http://huawei.com/"
     }
 ]
+
+#games
+games: [
+    {
+        title: "灭蚊大作战",
+        href: "https://chalema.github.io/dawenzi.html"
+    }
+]
