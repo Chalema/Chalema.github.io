@@ -116,5 +116,8 @@ games: [
     {
         title: "灭蚊大作战",
         href: "https://chalema.github.io/dawenzi.html"
+    },{
+        title: "疯狂猜图",
+        href: "https://chalema.github.io/caitu.html"
     }
 ]
