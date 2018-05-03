@@ -119,5 +119,8 @@ games: [
     },{
         title: "疯狂猜图",
         href: "https://chalema.github.io/caitu.html"
+    },{
+        title: "打飞机",
+        href: "https://chalema.github.io/dafeijiplus.html"
     }
 ]
