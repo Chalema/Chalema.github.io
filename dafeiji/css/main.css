@@ -9,7 +9,7 @@
 #startdiv{
     width: 320px;
     height: 568px;
-    background-image: url(../image/ks.png);
+    background-image: url(https://chalema.github.io/dafeiji/image/ks.png);
 }
 button{
     outline: none;
@@ -27,7 +27,7 @@ button{
 #maindiv{
     width: 320px;
     height: 568px;
-    background-image:url(../image/background_1.png) ;
+    background-image:url(https://chalema.github.io/dafeiji/image/background_1.png) ;
     display: none;
 }
 #maindiv img{
