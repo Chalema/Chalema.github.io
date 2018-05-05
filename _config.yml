@@ -122,5 +122,8 @@ games: [
     },{
         title: "打飞机",
         href: "https://chalema.github.io/dafeijiplus.html"
+    },{
+        title: "2048",
+        href: "https://chalema.github.io/game2048.html"
     }
 ]
