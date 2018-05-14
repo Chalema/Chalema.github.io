@@ -348,13 +348,13 @@ function checkGameOver() {
 }
 
 function showHelp() {
-	if ($('#openSideBar').attr('src') == './images/btn_back.svg') {
-		$('#openSideBar').attr('src', './images/btn_help.svg');
+	if ($('#openSideBar').attr('src') == 'https://chalema.github.io/hextris/images/btn_back.svg') {
+		$('#openSideBar').attr('src', 'https://chalema.github.io/hextris/images/btn_help.svg');
 		if (gameState != 0 && gameState != -1 && gameState != 2) {
 			$('#fork-ribbon').fadeOut(150, 'linear');
 		}
 	} else {
-		$('#openSideBar').attr('src', './images/btn_back.svg');
+		$('#openSideBar').attr('src', 'https://chalema.github.io/hextris/images/btn_back.svg');
 		if (gameState == 0 && gameState == -1 && gameState == 2) {
 			$('#fork-ribbon').fadeIn(150, 'linear');
 		}
@@ -365,7 +365,7 @@ function showHelp() {
 		pause();
 	}
 
-	if($("#pauseBtn").attr('src') == "./images/btn_pause.svg" && gameState != 0 && !infobuttonfading) {
+	if($("#pauseBtn").attr('src') == "https://chalema.github.io/hextris/images/btn_pause.svg" && gameState != 0 && !infobuttonfading) {
 		return;
 	}
 
