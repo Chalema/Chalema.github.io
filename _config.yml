@@ -125,5 +125,8 @@ games: [
     },{
         title: "2048",
         href: "https://chalema.github.io/2048.html"
+    },{
+        title: "hextris",
+        href: "https://chalema.github.io/hextris.html"
     }
 ]
