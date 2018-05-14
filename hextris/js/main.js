@@ -90,7 +90,7 @@ function hideUIElements() {
 function init(b) {
 	if(settings.ending_block && b == 1){return;}
 	if (b) {
-		$("#pauseBtn").attr('src',"./images/btn_pause.svg");
+		$("#pauseBtn").attr('src',"https://chalema.github.io/hextris/images/btn_pause.svg");
 		if ($('#helpScreen').is(":visible")) {
 			$('#helpScreen').fadeOut(150, "linear");
 		}
@@ -109,7 +109,7 @@ function init(b) {
 		$("#currentHighScore").text(highscores[0])
 	}
 	infobuttonfading = true;
-	$("#pauseBtn").attr('src',"./images/btn_pause.svg");
+	$("#pauseBtn").attr('src',"https://chalema.github.io/hextris/images/btn_pause.svg");
 	hideUIElements();
 	var saveState = localStorage.getItem("saveState") || "{}";
 	saveState = JSONfn.parse(saveState);
