@@ -128,5 +128,8 @@ games: [
     },{
         title: "hextris",
         href: "https://chalema.github.io/hextris.html"
+    },{
+        title: "一个都不能少",
+        href: "https://chalema.github.io/oneneverlose.html"
     }
 ]
