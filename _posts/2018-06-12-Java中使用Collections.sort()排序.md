@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      Fastjson的使用API
-subtitle:   Fastjson的相关使用
+title:      Java中使用Collections.sort()排序
+subtitle:   Java中使用Collections.sort()排序
 date: 	      2018-06-12
 author:     ChaleMa
 header-img: img/home-bg-art.jpg
