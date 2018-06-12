@@ -48,8 +48,8 @@ class T implements Comparable<T>{
 ```java
 List<T> list = new ArrayList<T>(); 
 ```
--类T实现接口Comparable，并实现compareTo()方法
--调用Collections.sort(lists)即可实现排序
+- 类T实现接口Comparable，并实现compareTo()方法
+- 调用Collections.sort(lists)即可实现排序
 
 # 二.Comparator比较器接口
 
