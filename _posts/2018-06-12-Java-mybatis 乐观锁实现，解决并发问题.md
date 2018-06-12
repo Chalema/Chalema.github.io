@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      mybatis乐观锁实现以解决并发问题
-subtitle:   mybatis乐观锁实现以解决并发问题
+title:      Mybatis乐观锁实现以解决并发问题
+subtitle:   Mybatis乐观锁实现以解决并发问题
 date: 	      2018-06-12
 author:     ChaleMa
 header-img: img/post-bg-unix-linux.jpg
