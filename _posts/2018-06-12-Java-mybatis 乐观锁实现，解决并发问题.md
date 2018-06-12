@@ -52,7 +52,7 @@ create table account_wallet(
 
 * DAO层
 
-```javascript
+```java
 AccountWallet selectByOpenId(String openId);
 
 int updateAccountWallet(AccountWallet record);
