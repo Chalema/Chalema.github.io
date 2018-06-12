@@ -79,7 +79,7 @@ public int updateAccountWallet(AccountWallet record) {
 ```
 * Sql.xml
 
-```javascript
+```xml
 <!--通过用户唯一编号，查询用户钱包相关的信息  -->
 <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select <include refid="Base_Column_List" />
@@ -99,7 +99,7 @@ public int updateAccountWallet(AccountWallet record) {
 
 * controller 层:
 
-```javascript
+```java
 package com.settlement.controller;
 
 import java.math.BigDecimal;
