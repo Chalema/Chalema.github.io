@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <!--
+
+    @license twgl.js Copyright (c) 2015, Gregg Tavares All Rights Reserved.
+    Available via the MIT license.
+    see: http://github.com/greggman/twgl.js for details
+
+    -->
+    <meta name="viewport" content="user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <title>unified pano</title>
+    <style>
+      * {
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+      }
+      html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: monospace;
+      }
+      canvas {
+        overflow: hidden;
+        position:fixed;
+        width: 100%;
+        height: 100%;
+        cursor:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAt1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8AAAAzMzP6+vri4uISEhKKioqtra2dnZ2EhIR9fX10dHRkZGQdHR3t7e3Hx8e5ubm1tbWoqKhWVlZKSko4ODgICAjv7+/o6OjMzMyxsbFOTk4pKSkXFxcEBAT29vbW1tZ6enpISEgLCwvhzeX+AAAAGXRSTlMANRO0nHRJHfnskIxQRKh89syDVwTWZjEJxPFEswAAAOFJREFUKM+1j+lygkAQhIflEAJe0Rw9u4CCeKKoSTTX+z9XoMJWWeX+ssrvZ3f19DQ5zOw/0DUMQPlmQ72bE2adBp8/Rp3CQUi3ILx+bxj4fjDs9T1Bmo6bbPPN8aDU4bjJt4nb+de789kSFyxn826jW3ICLNZZKU8nWWbrBTCRVm04U8TpjquRFf1Go0d7l8aYOrUR7FGEFr1S9LGymwthgX2gE/Kl0cHPOtF2xOWZ5QpIC93RflW4InkDoPRXesd5LJIMQPzV7tCMa7f6BvhJL79AVDmYTNQ1NhnxbI/uwB8H5Bjd4zQPBAAAAABJRU5ErkJggg=='),default;      }
+
+
+      #rotatePhone {
+        display:none;
+        z-index: 10;
+        margin-top:100px;
+        width:50%;
+        position:fixed;
+        pointer-events: none;
+        -webkit-animation:pulse 4s infinite;
+      }
+
+        @-webkit-keyframes pulse{
+            30%{-webkit-transform: rotate(0deg)}
+            70%{-webkit-transform: rotate(-90deg)}
+            95%{-webkit-transform: rotate(-90deg)}
+            100%{-webkit-transform: rotate(0deg)}
+        }
+
+
+      .center {
+        width:50%;
+        margin-left:auto;
+        margin-right:auto;        
+      }
+
+      .icon {
+        background-color: rgba(0,0,0,.2);
+        border-style: solid;
+        border-color: rgba(255,255,255,.5);
+        border-width: 2px;
+        border-radius: 24px;
+        position: absolute; 
+        cursor:pointer;
+        display: block; 
+        width: 40px; 
+        height: 40px; 
+        background-size: cover;
+        -webkit-user-select: none; 
+        transition: transform 0.15s;
+        -moz-transition: -moz-transform 0.15s;
+        -webkit-transition: -webkit-transform 0.15s;
+        -webkit-tap-highlight-color: #1ff;
+      }
+
+      .icon:hover {
+        transform: scale(1.25);
+        -webkit-transform: scale(1.25);
+      }
+
+      #icon_webvr {
+        width:64px;
+        height:64px;
+      }
+      #icon_exitfull {
+        display:none;
+      }
+      #icon_webvr {
+        display:none;
+      }
+      #zoom-icon {
+        right: 80px;
+        bottom: 25px;
+      }
+
+      #webvr-container {
+        left: 0; 
+        right: 0;
+        margin-left: auto; 
+        margin-right: auto;
+        bottom: 25px;         
+      }
+
+      #info-icon {
+        right: 20px;
+        bottom: 1px;
+      }
+
+      #loading {
+        position:absolute;
+        left:30px;
+      }
+
+      #infocard {
+        color:white;
+        background-color:gray; 
+        bottom:10px;
+        right:20px;
+        position:absolute; 
+        width:500px;
+        cursor:pointer;
+      }
+    p {
+       font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+       font-weight: 300;
+       font-size: 11px;
+       margin-left: 15px;
+    }      
+
+      #infocard img {
+        width:500px;
+      }
+
+      .fadeup {
+          transition-duration: 0.25s;
+          transition-property: transform opacity;
+          outline: 0;
+          opacity: 0;
+          pointer-events: none;
+      }
+
+      .fadeup:focus img {
+        transform: translate(0,-15px);
+        -webkit-transform: translate(0,-15px);          
+      }
+
+      .fadeup img {
+          transition-duration: 0.5s;
+          transform: translate(0,75px);
+          -webkit-transform: translate(0,75px);          
+          transition-property: transform opacity;
+      }
+
+      .fadeup:focus {
+        opacity: 1.0;
+        transform: translate(0,-40px);
+        -webkit-transform: translate(0,-40px);
+        pointer-events: auto;
+      }
+
+
+      @media only screen and (orientation: landscape) and (min-device-width: 1200px) {
+          #webvr-container {
+            bottom: 20px; 
+          }
+
+          #infocard {
+            bottom: 70px;
+          }
+
+          #info-icon {
+            bottom: 25px;
+          }
+
+          #zoom-icon {
+            right: 90px; 
+          }
+      }
+
+    </style>
+  </head>
+  <body>
+      <canvas id="c"></canvas>
+
+    <div id="infocard" class="fadeup" tabindex="1" ><p>.</p><img src="infocard.jpg" onclick="window.open('http://pano.autodesk.com/')"></div>
+    <div id="loading">
+      <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+      <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+      <animateTransform attributeType="xml"
+      attributeName="transform"
+      type="rotate"
+      from="0 25 25"
+      to="360 25 25"
+      dur="0.6s"
+      repeatCount="indefinite"/>
+      </path>
+      </svg>
+    </div>
+    <div class="center">
+    <svg id="rotatePhone" viewBox="-58.5 -52.5 128 128" x="0px" y="0px" width="128px" height="128px">
+      <path fill="white" d="M25.834-52.521h-40.667c0,0-11.618,0-11.618,11.635V63.85c0,11.63,11.618,11.63,11.618,11.63h40.667
+        c0,0,11.617,0,11.617-11.63V-40.885C37.451-52.521,25.834-52.521,25.834-52.521z M-3.213-45.425c0-0.724,0.345-1.285,0.771-1.285
+        h15.886c0.419,0,0.771,0.575,0.771,1.285v0.34c0,0.723-0.347,1.285-0.771,1.285H-2.442c-0.419,0-0.771-0.576-0.771-1.285V-45.425z
+         M5.5,70.641c-3.211,0-5.81-2.604-5.81-5.81c0-3.211,2.599-5.81,5.81-5.81c3.21,0,5.81,2.599,5.81,5.81
+        C11.311,68.037,8.711,70.641,5.5,70.641z M31.644,54.953h-52.285v-92.95h52.285V54.953z M-6.339,9.497h-6.065
+        c-0.21-4.904,1.543-9.876,5.282-13.619c6.416-6.419,16.435-7.009,23.544-1.818c1.389-1.376,3.398-3.338,3.398-3.338
+        c1.219-1.191,2.394-0.156,2.35,0.918V3.364c0,0.452-0.37,0.82-0.831,0.82h-1.644c-0.461,0-0.828,0-0.828,0s-0.364,0-0.812,0H9.516
+        C8.792,4.206,7.362,3.322,8.639,1.79c0,0,1.814-1.824,3.403-3.39C7.373-4.454,1.2-3.878-2.839,0.162
+        C-5.403,2.726-6.556,6.144-6.339,9.497z M17.342,7.46h6.07c0.203,4.907-1.539,9.868-5.289,13.618
+        c-6.417,6.417-16.435,7.014-23.538,1.82c-1.396,1.381-3.403,3.331-3.403,3.331c-1.22,1.203-2.395,0.164-2.349-0.906V13.6
+        c0.012-0.461,0.369-0.83,0.828-0.83h1.646c0.453,0,0.828,0,0.828,0s0.363,0.012,0.823,0.012l8.526-0.012
+        c0.727-0.021,2.156,0.858,0.88,2.397c0,0-1.822,1.828-3.405,3.398C3.628,21.414,9.8,20.834,13.839,16.8
+        C16.404,14.24,17.555,10.813,17.342,7.46z"/>    
+    </svg>
+    </div>
+
+    <svg id="zoom-icon" class="icon metro" onclick="zoom()" ontouchstart="zoom();return false;" draggable="false" viewBox="0 0 23 23">
+    <g fill="white">
+    <path id="icon-zoomin" d="M16.116,11h-4.117V6.884c0-0.276-0.224-0.5-0.5-0.5s-0.5,0.224-0.5,0.5V11H6.884c-0.276,0-0.5,0.224-0.5,0.5
+      s0.224,0.5,0.5,0.5h4.115v4.115c0,0.276,0.224,0.5,0.5,0.5s0.5-0.224,0.5-0.5V12h4.117c0.276,0,0.5-0.224,0.5-0.5
+      S16.393,11,16.116,11z"/>
+      <path d="M16.115,12H6.884c-0.276,0-0.5-0.224-0.5-0.5s0.224-0.5,0.5-0.5h9.231c0.277,0,0.5,0.224,0.5,0.5
+    S16.393,12,16.115,12z"/>
+    </g>
+
+</svg> 
+
+    <svg id="info-icon" class="icon metro" onclick="showinfo()" draggable="false" viewBox="0 0 23 23"><g fill="white">
+        <path d="M11.5,9.646c-0.276,0-0.5,0.224-0.5,0.5v6.668c0,0.275,0.224,0.5,0.5,0.5s0.5-0.225,0.5-0.5v-6.668
+          C12,9.87,11.776,9.646,11.5,9.646z"/>
+        <path d="M11.5,5.686c-0.552,0-1,0.448-1,1.002c0,0.549,0.448,0.998,1,0.998c0.551,0,1-0.449,1-0.998
+          C12.5,6.134,12.051,5.686,11.5,5.686z"/>         
+    </g></svg>
+
+  <div id="webvr-container" class="icon metro" onclick="startVRfullscreen();return false;" draggable="false"></div>
+</body>
+
+  
+  <script id="vs" type="notjs">
+    attribute vec4 a_position;
+    uniform vec4 u_color;
+    varying vec4 v_color;
+    varying vec2 v_position;
+
+    void main() {
+      v_color = u_color;
+      v_position = a_position.xy;
+      gl_Position = a_position;
+    }
+  </script>
+
+
+  <script id="fs" type="notjs">
+  
+	#define RECIPROCAL_PI 0.31830988618
+	#define RECIPROCAL_PI2 0.15915494
+    precision mediump float;
+	#ifdef ENVMAP_TYPE_EQUIREC
+		uniform sampler2D u_skybox;
+	#else
+		uniform samplerCube u_skybox;
+	#endif
+    uniform mat4 u_viewDirectionProjectionInverse;
+    varying vec2 v_position;
+    varying vec4 v_color;
+    uniform vec3 u_distortion;
+
+    // original src: http://rifty-business.blogspot.com/2013/08/understanding-oculus-rift-distortion.html
+    // typical u_distortion values: https://github.com/ValveSoftware/steamworks-vr-api/issues/4#issuecomment-34941206
+    float distortionScale(vec2 offset) {
+        vec2 offsetSquared = offset * offset;
+        float radiusSquared = offsetSquared.x + offsetSquared.y;
+        float distortionScale = //
+                u_distortion[0] + u_distortion[1] * radiusSquared + //
+                u_distortion[2] * radiusSquared * radiusSquared;
+        return distortionScale;
+    } 
+
+    void main() {
+      vec2 p = v_position;
+      if (u_distortion[0] > 0.0) p *= distortionScale(v_position);
+      vec4 t = u_viewDirectionProjectionInverse * vec4(p, 1, 1);
+	  #ifdef ENVMAP_TYPE_EQUIREC
+	    vec2 sampleUV;
+		t = normalize( t );
+		sampleUV.y = 1.0 - (asin( clamp( t.y, -1.0, 1.0 ) ) * RECIPROCAL_PI + 0.5);
+		sampleUV.x = atan( t.z, t.x ) * RECIPROCAL_PI2 + 0.5;
+		gl_FragColor = texture2D( u_skybox, sampleUV );
+	  #else
+		gl_FragColor =  textureCube( u_skybox, normalize(vec3(-t.x, t.yz) / t.w)) * v_color;
+	  #endif
+    }
+  </script>
+ 
+  <script src="twgl-dist.js"></script>
+  <script>
+  // globals:
+  // drawObjects - draw list of scenegraph objects
+  // objects - additional attributes of scenegraph objects, like transform, color, etc
+  // Note: the first object is the skybox object (object type = 0)
+  // Floating Waypoint billboards are added afterwards (object type = 1)
+  // based on the twgl.js 'primitives' example: https://github.com/greggman/twgl.js/blob/master/examples/primitives.html
+  var loadStereoTexture = function(preview, url, isLatlong) {
+    if (!preview) return;
+    var _cubeFaceOrder = (q.mono || q.type === "cross") ? [
+          gl.TEXTURE_CUBE_MAP_POSITIVE_X,
+          gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+          gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+          gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
+          gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
+          gl.TEXTURE_CUBE_MAP_POSITIVE_Z
+        ] : [
+          gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+          gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
+          gl.TEXTURE_CUBE_MAP_POSITIVE_X,
+          gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
+          gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
+          gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+        ];
+
+    // bad GPU... IE11 cannot handle non-power-of-two, chrome mac intel iris cannot handle > 1024. 
+
+    var isBadGpu = (isIEwin || gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE) < 1025) ? 1024 : null;
+	
+	var targetVal = !!!isLatlong ? gl.TEXTURE_CUBE_MAP : gl.TEXTURE_2D;
+	
+    twgl.createTexture(gl, {
+		target: targetVal,
+        cubeFaceOrder: _cubeFaceOrder,
+        src: preview,
+        isBadGpu: isBadGpu,
+		min: gl.LINEAR,
+		mag: gl.LINEAR
+    }, function(err, tex) {
+        if (err) {console.log('error loading preview image');return;}
+        objects[0].skyboxL = tex;
+        objects[0].skyboxR = tex;
+        drawObjects[0].uniforms.u_skybox = tex;
+		console.log("loaded " + preview);
+        if (q.mono) return;
+        twgl.createTexture(gl, {
+            target: targetVal,
+            cubeFaceOrder: _cubeFaceOrder,
+            src: url + ((q.flipLR) ? "R" : "L") + ".jpg",
+            isBadGpu: isBadGpu,
+			min: gl.LINEAR,
+			mag: gl.LINEAR
+        }, function(err, tex) {
+            if (err) {console.log('error:',err); return;}
+            objects[0].skyboxL = tex;
+            drawObjects[0].uniforms.u_skybox = tex;
+          twgl.createTexture(gl, {
+              target: targetVal,
+              cubeFaceOrder: _cubeFaceOrder,
+              src: url + ((q.flipLR) ? "L" : "R") + ".jpg",
+              isBadGpu: isBadGpu,
+			  min: gl.LINEAR,
+			  mag: gl.LINEAR
+          }, function(err, tex) {
+              objects[0].skyboxR = tex;
+              drawObjects[0].uniforms.u_skybox = tex;
+          });                
+        });
+    });
+  };
+
+  q.type = "cross";
+  q.stereo = true;
+
+  if (!q.mono && !q.url) q.url = "image";
+  
+  initStereoSkybox(false);
+  requestAnimationFrame(render);
+  
+  if (q.mono) {
+    loadStereoTexture(q.mono+"_th.jpg", q.url, q.type==="latlong");
+    setTimeout(function(){
+      document.getElementById("loading").style.display = "none";
+      loadStereoTexture(q.mono+".jpg", q.url, q.type==="latlong");      
+    },2000);
+  } else {
+    loadStereoTexture(q.url+".jpg", q.url, q.type==="latlong");
+    document.getElementById("loading").style.display = "none";
+  }
+  </script>
+</html>
